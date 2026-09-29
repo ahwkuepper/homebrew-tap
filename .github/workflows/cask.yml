@@ -26,7 +26,9 @@ jobs:
         run: |
           codesign --verify --deep --strict /Applications/Vesta.app
           spctl --assess --type execute --verbose /Applications/Vesta.app
-          lipo /Applications/Vesta.app/Contents/MacOS/Vesta -verify_arch arm64 x86_64
+          VESTA_ARCHS=" $(lipo -archs /Applications/Vesta.app/Contents/MacOS/Vesta) "
+          [[ "$VESTA_ARCHS" == *" arm64 "* ]]
+          [[ "$VESTA_ARCHS" == *" x86_64 "* ]]
       - name: Uninstall
         if: always()
         run: |
