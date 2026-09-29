@@ -18,7 +18,7 @@ brew install --cask --adopt ahwkuepper/tap/vesta-hue
 ```
 
 `--adopt` checks that the existing app matches. If an older or locally built copy
-is present, quit Vesta and move that app out of `/Applications` before installing.
+is present, quit Vesta and move that app to the Trash before installing.
 Keep its settings and Keychain credentials so the new copy can reuse the pairing.
 
 The token is `vesta-hue`, not `vesta`: Homebrew's `vesta` cask is an unrelated
