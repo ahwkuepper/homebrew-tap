@@ -1,0 +1,35 @@
+name: Cask
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: macos-15
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_ANALYTICS: "1"
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Tap the checked-out revision
+        run: brew tap ahwkuepper/tap "$GITHUB_WORKSPACE"
+      - name: Style
+        run: brew style ahwkuepper/tap/vesta-hue
+      - name: Audit
+        run: brew audit --cask --strict --online ahwkuepper/tap/vesta-hue
+      - name: Install published app
+        run: brew install --cask ahwkuepper/tap/vesta-hue
+      - name: Verify signed and notarized app
+        run: |
+          codesign --verify --deep --strict /Applications/Vesta.app
+          spctl --assess --type execute --verbose /Applications/Vesta.app
+          lipo -verify_arch arm64 x86_64 /Applications/Vesta.app/Contents/MacOS/Vesta
+      - name: Uninstall
+        if: always()
+        run: |
+          if brew list --cask vesta-hue >/dev/null 2>&1; then
+            brew uninstall --cask vesta-hue
+          fi
