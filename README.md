@@ -53,7 +53,9 @@ After publishing each signed, notarized Vesta release:
    [GitHub releases](https://github.com/ahwkuepper/Vesta/releases).
 2. Confirm the DMG's SHA-256 matches `dmg-sha256` in the manifest.
 3. Update `version` and `sha256` in `Casks/vesta-hue.rb`, and this README's current
-   version. Keep the versioned URL and real checksum; never use `latest` or
+   version. If the release is a prerelease, update the version-specific entry in
+   `audit_exceptions/github_prerelease_allowlist.json`; remove that entry for a
+   stable release. Keep the versioned URL and real checksum; never use `latest` or
    `:no_check`.
 4. Run `brew style ahwkuepper/tap/vesta-hue` and
    `brew audit --cask --strict --online ahwkuepper/tap/vesta-hue` against the updated
