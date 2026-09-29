@@ -12,7 +12,7 @@ cask "vesta-hue" do
   end
 
   conflicts_with cask: "vesta"
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Vesta.app"
 
